@@ -1,39 +1,31 @@
 #!/bin/bash
 
 function createDb {
-read -p "Enter the name of your database: " db_name
+    while true; do
+        read -p "Enter the name of your database: " db_name
 
-if [[ $db_name =~ ^[0-9] ]]; then
-echo "The database name should not start with a number,Please enter a valid name."
-return
-fi
-
-if [[ $db_name == *" "* ]]
-then
-echo "The name of database should not contain spaces,please enter again."
-return
-fi
-
-if [[ ! $db_name =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]
-then
-echo "The database name should only contain letters, numbers, or underscores,please enter again your name."
-return
-fi
-
-data_folder="./databases"
-
-if [ ! -d "$data_folder" ]; then
-	mkdir "$data_folder"
-	echo "Created 'database' folder."
-fi
-
-if [ -d "$db_name" ]
-then
-echo "Database $db_name already existed,pleaze Enter another name"
-else
-mkdir "$data_folder/$db_name"
-echo "Database $db_name created successfully"
-source ./main.sh
-fi
-
+        if [[ $db_name =~ ^[0-9] ]]; then
+            echo "Error: The database name should not start with a number. Please enter a valid name."
+        elif [[ $db_name == *" "* ]]; then
+            echo "Error: The name of the database should not contain spaces. Please enter a valid name."
+        elif [[ ! $db_name =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+            echo "Error: The database name should only contain letters, numbers, or underscores. Please enter a valid name."
+        elif [ -d "./databases/$db_name" ]; then
+            echo "Error: Database '$db_name' already exists. Please enter another name."
+        else
+            mkdir -p "./databases/$db_name"
+            echo "Database '$db_name' created successfully."
+            echo "             ========================================================="
+        echo "                             ========================             "	
+           
+            source ./main.sh
+            break
+              
+        fi
+        
+    done
+    
 }
+
+
+ 

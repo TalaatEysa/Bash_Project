@@ -13,7 +13,7 @@ function createTable {
 	elif [[ "$TABLENAME" == *" "* ]]; then
 		echo "invalid input: Table Name shouldn't contain spaces"
 	elif ! [[ "$TABLENAME" == [a-zA-Z]* ]]; then
-		echo "Invalid input: Table name shouldn't start with a special character."
+		echo "Invalid input: Table name shouldn't have special character."
 		createTable $1
 	else
 		touch ./databases/$1/"${TABLENAME}"
@@ -51,7 +51,7 @@ function enterColsNum {
 			((counter++))
 		done
 		echo "Table created successfully!"
-		./connectToDb
+		source ./connectToDb.sh
 	fi
 }
 
@@ -115,12 +115,12 @@ function enterColDataType {
 		case $REPLY in
 		1)
 			echo -n ":varchar" >>./databases/$2/$3
-			enterColConstraints $1 $2 $3 $4
+			
 			break
 			;;
 		2)
 			echo -n ":integer" >>./databases/$2/$3
-			enterColConstraints $1 $2 $3 $4
+			
 			break
 			;;
 		*)
@@ -130,51 +130,5 @@ function enterColDataType {
 		esac
 
 	done
-}
-
-function enterColConstraints {
-	null=0
-	unique=0
-
-	if [[ $4 -eq 0 ]]; then
-		echo "Choose a constraint for $1 : "
-		options=("not null" "unique" "done")
-
-		while true; do
-			echo "Options:"
-			for ((i = 0; i < ${#options[@]}; i++)); do
-				echo "$((i + 1))) ${options[i]}"
-			done
-
-			read -p "Enter your choice: " choice
-
-			case "$choice" in
-			1)
-				if [ "$null" -eq 0 ]; then
-					echo -n ":notNull" >>"./databases/$2/$3"
-					null=1
-				else
-					echo "You already set this constraint before."
-				fi
-				;;
-			2)
-				if [ "$unique" -eq 0 ]; then
-					echo -n ":unique" >>"./databases/$2/$3"
-					unique=1
-				else
-					echo "You already set this constraint before."
-				fi
-				;;
-			3)
-				break
-
-				;;
-
-			*)
-				echo "Invalid option."
-				;;
-			esac
-		done
-	fi
 }
 

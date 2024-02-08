@@ -3,7 +3,7 @@
 list_tables(){
 
 database_name="$1"
-tables_folder="./db_folder/$database_name/table_folder"
+tables_folder="./databases/$database_name"
 
 if [[ $database_name =~ ^[0-9] ]]; then
 echo "The name table should not start with a number,Please enter a valid name."
@@ -28,10 +28,15 @@ if [ ! -d "$tables_folder" ] || [ -z "$(ls -A "$tables_folder")" ]
 then
 echo "There is no tables"
 else
-echo "Tables in this "$database_name" database are:"
+echo ""
+echo ">>>>(Tables in this "$database_name" database)<<<<"
+echo ""
 ls -A "$tables_folder"
+echo "             ========================================================="
+echo "                             ========================             "
 fi
 
 }
 
 list_tables "$1"
+./connectToDb.sh

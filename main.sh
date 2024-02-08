@@ -5,7 +5,9 @@ source ./create_db.sh
 PS3="Please select a command from the menu: "
 menu=("Create Database" "List Databases" "Connect To Databases" "Drop Database" "exit")
 while true; do
-    echo  "DBMS:"
+    echo ""
+    echo  "                                DBMS"
+    echo  "                              *********"
     select choice in "${menu[@]}"
     do
         case $REPLY in

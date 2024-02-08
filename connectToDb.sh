@@ -24,7 +24,9 @@ fi
 		if [ ! -d "$databases" ]; then
 			echo "No databases yet. 'database' folder does not exist."
 		else
-			echo "Already existing databases:"
+			echo ""
+			echo ">>>>(Already existing databases)>>>>"
+			echo ""
 
 			# List existing databases in the "data" folder
 			if [ "$(ls -A "$databases")" ]; then
@@ -39,8 +41,9 @@ fi
 
 		if [ -d databases/$name ]; then
 			#cd database/$name
-			echo "successfully connected to $name database"
-
+			echo ""
+			echo ">>>>>>>>successfully connected to $name database<<<<<<<<"
+                        echo ""
 			select choice in "create table" "drop table" "list tables" "select from table" "insert into table" "update from table" "delete from table" "connect to another database" "return to main"; do
 				case $REPLY in
 				1)
@@ -52,15 +55,17 @@ fi
 					break
 					;;
 				3)
-					./list_tabel.sh $name
+					./list_tables.sh $name
 					break
 					;;
 				4)
-					./selectFromTable $name
+					./selectFromTable.sh $name
 					break
 					;;
 				5)
-					./InsertTabel.sh $name
+					./insertTable.sh $name
+
+
 					break
 					;;
 				6)
@@ -68,7 +73,7 @@ fi
 					break
 					;;
 				7)
-					./deleteFromTable $name
+					./deleteFromTable.sh $name
 					break
 					;;
 				8)
