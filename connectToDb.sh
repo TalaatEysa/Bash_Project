@@ -69,7 +69,7 @@ fi
 					break
 					;;
 				6)
-					./updateTable $name
+					source ./updateTable.sh $name
 					break
 					;;
 				7)
