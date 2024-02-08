@@ -42,7 +42,7 @@ function updateTable {
         # Validate new value based on data type
         dataType=$(awk -F: -v colNum="$colNumber" 'NR == colNum {print $2}' "$dataDir/${TABLENAME}_meta")
         case $dataType in
-            "Integer")
+            "integer")
                 if ! [[ $newValue =~ ^[0-9]+$ ]]; then
                     echo "Invalid input! This column must be an integer."
                     return
