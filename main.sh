@@ -2,12 +2,12 @@
 source ./dropDb.sh 
 source ./create_db.sh
 # create the first menu
+clear
 PS3="Please select a command from the menu: "
 menu=("Create Database" "List Databases" "Connect To Databases" "Drop Database" "exit")
 while true; do
-    echo ""
-    echo  "                                DBMS"
-    echo  "                              *********"
+    echo  "                          Welcome to Our DBMS           "
+    echo  "                              *********                 "
     select choice in "${menu[@]}"
     do
         case $REPLY in

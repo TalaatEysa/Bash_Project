@@ -31,7 +31,7 @@ else
 echo ""
 echo ">>>>(Tables in this "$database_name" database)<<<<"
 echo ""
-ls -A "$tables_folder"
+ls -A "$tables_folder" | grep -v "_meta"
 echo "             ========================================================="
 echo "                             ========================             "
 fi

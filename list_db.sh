@@ -11,7 +11,7 @@ else
 		ls -F "$data_folder" | grep / | tr / " " 
 	echo "             ========================================================="
         echo "                             ========================             "	
-		source ./main.sh
+		#source ./main.sh
 	else
 		echo "No databases yet. 'data' folder is empty."
 	fi

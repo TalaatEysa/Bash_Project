@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 
 source ./createTable.sh
+
 function connectToDb {
 
 	databases="./databases"
@@ -37,11 +38,16 @@ fi
 			fi
 		fi
 
-		read name
+		read -p "enter database name: " name
+		if [[ -z "$name" ]]; then
+		echo "invalid input"
+		./connectToDb.sh
+		fi
 
 		if [ -d databases/$name ]; then
 			#cd database/$name
 			echo ""
+			#clear
 			echo ">>>>>>>>successfully connected to $name database<<<<<<<<"
                         echo ""
 			select choice in "create table" "drop table" "list tables" "select from table" "insert into table" "update from table" "delete from table" "connect to another database" "return to main"; do
@@ -51,7 +57,7 @@ fi
 					break
 					;;
 				2)
-					./drop_tabel $name
+					./dropTable.sh $name
 					break
 					;;
 				3)
@@ -77,15 +83,15 @@ fi
 					break
 					;;
 				8)
-					connect
+					./connectToDb.sh
 					break
 					;;
 				9)
-					./main
+					./main.sh
 					break
 					;;
 
-				*)
+				* )
 					echo "Invalid Input."
 					;;
 				esac

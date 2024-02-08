@@ -1,6 +1,7 @@
 #!/bin/bash
 dataDir="./databases"
 function dropDb {
+    while true; do
     read -p "Enter Database name: " DBNAME
 
     if [[ -d "$dataDir/$DBNAME" ]] && [[ -n $DBNAME ]]
@@ -10,9 +11,9 @@ function dropDb {
         do
         case $confirm in
             "yes") rm -r "$dataDir/$DBNAME"
-                   if [[ ! -d "$dataDir/$DBNAME" ]]
-		   then
+                   if [[ ! -d "$dataDir/$DBNAME" ]]; then
                        echo "Database $DBNAME deleted successfully :)"
+                       break 2
                    else
                        echo "Failed to delete database $DBNAME."
                    fi
@@ -29,4 +30,6 @@ function dropDb {
     else
         echo "Database $DBNAME doesn't exist!"
     fi
+
+    done
 }

@@ -12,3 +12,4 @@ function dropTable {
    return
   fi 
 }
+dropTable $1

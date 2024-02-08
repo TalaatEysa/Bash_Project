@@ -1,11 +1,14 @@
 #!/bin/bash
 dataDir="./databases/$1"
 function updateTable {
+    
     read -p "Enter the name of the table you want to update: " TABLENAME
     if [[ -f "$dataDir/$TABLENAME" ]]; then
         if [ ! -s "$dataDir/$TABLENAME" ]; then
             echo "Table '$TABLENAME' is empty. Nothing to update."
-            return
+            #return
+            #break
+            ./connectToDb.sh
         fi
 
         echo "Columns in the table:"
@@ -17,7 +20,7 @@ function updateTable {
         pKeyColumn=$(grep -n "pk" "$dataDir/${TABLENAME}_meta" | cut -d: -f1)
         if ! grep -i -w "$primaryKeyValue" "$dataDir/$TABLENAME" >/dev/null; then
             echo "Row with primary key '$primaryKeyValue' not found in table '$TABLENAME'."
-            return
+            ./connectToDb.sh
         fi
 
         read -p "Enter the column name you want to update: " columnName
@@ -25,7 +28,8 @@ function updateTable {
         # Check if the column exists in the table
         if ! grep -w "$columnName" "$dataDir/${TABLENAME}_meta" >/dev/null; then
             echo "Column '$columnName' not found in table '$TABLENAME'."
-            return
+            #return
+            ./connectToDb.sh
         fi
 
         # Find the column number
@@ -36,7 +40,8 @@ function updateTable {
         # Validate the new value to prevent special characters
         if [[ $newValue =~ [^a-zA-Z0-9_] ]]; then
             echo "Invalid input! The new value cannot contain special characters."
-            return
+            #return
+            ./connectToDb.sh
         fi
 
         # Validate new value based on data type
@@ -73,6 +78,7 @@ function updateTable {
         fi
     else
         echo "Table '$TABLENAME' not found."
+        ./connectToDb.sh
     fi
 }
 updateTable $1
