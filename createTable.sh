@@ -1,19 +1,19 @@
 #!/usr/bin/bash
 function createTable {
 	read -p "Enter the name of the table you want to create: " TABLENAME
-	if [ -f "$HOME/bashProject/databases/$1/$TABLENAME" ]; then
+	if [ -f "./databases/$1/$TABLENAME" ]; then
 		echo "Table with the same name already exists in this Database!"
 		createTable
 	elif [ -z "$TABLENAME" ]; then
 		echo "Invalid input: empty string."
 		createTable $1
-	elif [[ "$TABLENAME" == [1-9]* ]]; then
+	elif [[ "$TABLENAME" =~ ^[0-9] ]]; then
 		echo "Invalid input: Table name shouldn't start with a number."
 		createTable $1
 	elif [[ "$TABLENAME" == *" "* ]]; then
 		echo "invalid input: Table Name shouldn't contain spaces"
-	elif ! [[ "$TABLENAME" == [a-zA-Z]* ]]; then
-		echo "Invalid input: Table name shouldn't have special character."
+	elif ! [[ "$TABLENAME" =~ ^[a-zA-Z][a-zA-Z]*$ ]]; then
+		echo "Invalid input: Table name shouldn't have special character,numbers or spaces."
 		createTable $1
 	else
 		touch ./databases/$1/"${TABLENAME}"
@@ -29,7 +29,7 @@ function enterColsNum {
 		echo "Invalid input: empty value."
 		enterColsNum $1 $2
 	elif ! [[ $COLUMNSNUMBER =~ ^[0-9]+$ ]]; then
-		echo "Invalid input: expected numbers only ."
+		echo "Invalid input: expected positive numbers only ."
 		enterColsNum $1 $2
 	elif [[ $COLUMNSNUMBER -lt 1 ]]; then
 		echo "Invalid input: expected number greater than two ."
@@ -125,7 +125,11 @@ function enterColDataType {
 			;;
 		*)
 			echo "Invalid Input."
-			enterColDataType $1 $2 $3 $4
+			#enterColDataType $1 $2 $3 $4
+			rm "./databases/$2/${TABLENAME}"
+			rm "./databases/$2/$3"
+			
+			./connectToDb.sh
 			;;
 		esac
 

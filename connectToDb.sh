@@ -42,6 +42,9 @@ fi
 		if [[ -z "$name" ]]; then
 		echo "invalid input"
 		./connectToDb.sh
+		elif [[ ! $name =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+		echo "database $name does not exist."
+		./main.sh
 		fi
 
 		if [ -d databases/$name ]; then

@@ -6,15 +6,12 @@ selectFromTable() {
     read -p "Enter Table Name: " tbname
     
     local records_file="./databases/$1/${tbname}"
-    
-
-    
-    
     # Check if the table name is empty or contains special characters
     if [[ -z "$tbname" || "$tbname" =~ [/.:\\-] ]]; then
         echo "Error: Table name cannot be empty or have special characters. Please enter a valid name."
     elif [[ ! -f "$records_file" ]]; then
         echo "Error: Table $tbname does not exist."
+        ./connectToDb.sh
         
     else
         while true; do
@@ -26,11 +23,15 @@ selectFromTable() {
                     # Select All
                #       echo "$records_file"
                 #    ls -A "$records_file"
+                    if [ -s "${records_file}" ]; then
                     echo ""
                     echo "*****************"
                     cat "${records_file}"
                     echo "*****************"
                     echo ""
+                    else
+                    echo "No records to display."
+                    fi
                     ./connectToDb.sh
                     break
                     ;;
@@ -62,8 +63,8 @@ selectFromTable() {
 
 				# Output Handling
 				if [[ -z "$row" ]]; then
-				     read -p "Row with primary key value '$primaryKeyValue' not found in table '$tableName'. Do you want to insert another value? (yes/no): " insertAnother
-			     if [[ "$insertAnother" == "yes" ]]; then
+				     read -p "Row with primary key value '$primaryKeyValue' not found in table '$tableName'. Do you want to select another value? (yes/no): " selectAnother
+			     if [[ "$selectAnother" == "yes" ]]; then
 					    continue
 			      else
 					    break

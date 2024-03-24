@@ -50,7 +50,7 @@ function updateTable {
             "integer")
                 if ! [[ $newValue =~ ^[0-9]+$ ]]; then
                     echo "Invalid input! This column must be an integer."
-                    return
+                    ./connectToDb.sh
                 fi
                 ;;
             "varchar")
@@ -58,14 +58,14 @@ function updateTable {
                 ;;
             *)
                 echo "Unknown data type '$dataType' for column '$columnName'."
-                return
+                ./connectToDb.sh
                 ;;
         esac
 
         # Check if new primary key value conflicts with existing ones
         if grep -i -w "$newValue" "$dataDir/$TABLENAME" | grep -v -w "$primaryKeyValue" >/dev/null; then
             echo "Error: New primary key value '$newValue' conflicts with existing values."
-            return
+            ./connectToDb.sh
         fi
 
         # Update the row
@@ -73,8 +73,10 @@ function updateTable {
 
         if mv "$dataDir/${TABLENAME}.tmp" "$dataDir/$TABLENAME"; then
             echo "Row with primary key '$primaryKeyValue' updated successfully in table '$TABLENAME'."
+            ./connectToDb.sh
         else
             echo "Error updating row in table '$TABLENAME'."
+            ./connectToDb.sh
         fi
     else
         echo "Table '$TABLENAME' not found."
